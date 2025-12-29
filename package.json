@@ -2,15 +2,22 @@
   "name": "clash-cli",
   "version": "1.0.0",
   "type": "module",
-  "description": "",
+  "description": "A command-line interface for managing Clash configurations, subscriptions, and proxies.",
   "bin": {
     "clash": "./bin/index.js"
   },
   "main": "index.js",
   "scripts": {
+    "start": "node bin/index.js start",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
+  "keywords": [
+    "clash",
+    "proxy",
+    "cli",
+    "subscription",
+    "manager"
+  ],
   "author": "",
   "license": "ISC",
   "packageManager": "pnpm@10.23.0",
