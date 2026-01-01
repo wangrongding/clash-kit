@@ -1,5 +1,4 @@
 import { spawn } from 'child_process'
-import axios from 'axios'
 import path from 'path'
 import { fileURLToPath } from 'url'
 
@@ -10,83 +9,40 @@ const __dirname = path.dirname(__filename)
 const CLASH_BIN_PATH = path.join(__dirname, 'clash-meta') // 解压后的二进制文件路径
 const CLASH_CONFIG_PATH = path.join(__dirname, 'config.yaml') // 配置文件路径
 const API_BASE = 'http://127.0.0.1:9090'
-const API_SECRET = 'your-strong-secret-key' // 和 config.yaml 一致
-
-// 通用请求头
-const headers = {
-  Authorization: `Bearer ${API_SECRET}`,
-}
 
 // ---------------- 2. 启动 Clash.Meta 进程 ----------------
 function startClash() {
-  const clashProcess = spawn(CLASH_BIN_PATH, [
-    '-f',
-    CLASH_CONFIG_PATH, // 指定配置文件
-    '-d',
-    './', // 工作目录，用于存放日志等文件
-  ])
+  const clashProcess = spawn(
+    CLASH_BIN_PATH,
+    ['-f', CLASH_CONFIG_PATH, '-d', __dirname],
+    {
+      cwd: __dirname,
+      detached: true,
+      stdio: 'ignore',
+    }
+  )
 
-  // 监听进程输出
-  clashProcess.stdout.on('data', data => {
-    console.log(`[Clash.Meta 输出]: ${data.toString().trim()}`)
+  clashProcess.on('error', err => {
+    console.error(`启动 Clash.Meta 失败: ${err.message}`)
+    process.exit(1)
   })
 
-  // 监听进程错误
-  clashProcess.stderr.on('data', data => {
-    console.error(`[Clash.Meta 错误]: ${data.toString().trim()}`)
-  })
-
-  // 监听进程退出
-  clashProcess.on('exit', code => {
-    console.log(`[Clash.Meta 退出] 退出码: ${code}`)
-  })
+  // 解除与父进程的引用，让子进程在后台独立运行
+  clashProcess.unref()
 
   return clashProcess
 }
 
-// ---------------- 3. API 调用示例 ----------------
-// 示例1: 查询所有节点
-async function getProxies() {
-  try {
-    const res = await axios.get(`${API_BASE}/proxies`, { headers })
-    console.log('\n=== 节点列表 ===')
-    const proxyGroup = res.data.proxies.Proxy // 对应 config 里的 Proxy 组
-    console.log('当前选中节点:', proxyGroup.now)
-    console.log('所有可选节点:', proxyGroup.all)
-  } catch (err) {
-    console.error('查询节点失败:', err.message)
-  }
-}
-
-// 示例2: 切换节点
-async function switchProxy(groupName, proxyName) {
-  try {
-    await axios.put(`${API_BASE}/proxies/${encodeURIComponent(groupName)}`, { name: proxyName }, { headers })
-    console.log(`\n已切换 ${groupName} 组到节点: ${proxyName}`)
-  } catch (err) {
-    console.error('切换节点失败:', err.message)
-  }
-}
-
-// ---------------- 4. 执行流程 ----------------
-export async function main() {
-  // 启动 Clash.Meta
+// ---------------- 3. 执行流程 ----------------
+export function main() {
   const clashProcess = startClash()
 
-  // 等待 3 秒，确保进程和 API 完全启动
-  setTimeout(async () => {
-    await getProxies()
-    // 替换成你的节点名
-    await switchProxy('Proxy', 'your-proxy-node')
-    await getProxies()
-  }, 3000)
-
-  // 监听脚本退出信号，关闭 Clash.Meta 进程
-  process.on('SIGINT', () => {
-    console.log('\n正在关闭 Clash.Meta...')
-    clashProcess.kill()
-    process.exit()
-  })
+  console.log('Clash.Meta 已在后台启动')
+  if (clashProcess.pid) {
+    console.log(`PID: ${clashProcess.pid}`)
+  }
+  console.log(`API: ${API_BASE}`)
+  console.log('提示: 如需停止可使用 kill <PID>，或手动结束 clash-meta 进程')
 }
 
 // 运行脚本
