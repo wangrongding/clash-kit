@@ -105,7 +105,7 @@ export function main(options = {}) {
     console.log(`PID: ${clashProcess.pid}`)
   }
   console.log(`API: ${getApiBase()}`)
-  console.log('提示: 如需停止可使用 kill <PID>，或手动结束 clash-meta 进程')
+  console.log('提示: 如需停止可使用 clash stop 命令')
 }
 
 // 运行脚本
