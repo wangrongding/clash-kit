@@ -9,6 +9,7 @@ import { fileURLToPath } from 'url'
 import { main as startClashService } from '../index.js'
 import * as api from '../lib/api.js'
 import * as sub from '../lib/subscription.js'
+import * as sysproxy from '../lib/sysproxy.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -40,16 +41,38 @@ program
 program
   .command('start')
   .description('启动 Clash 服务')
-  .action(() => {
+  .option('-s, --sysproxy', '启动后自动开启系统代理')
+  .action(async options => {
     startClashService()
+
+    if (options.sysproxy) {
+      console.log('正在等待 Clash API 就绪以设置系统代理...')
+      const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
+
+      // 尝试 5 次，每次间隔 1 秒
+      for (let i = 0; i < 5; i++) {
+        await sleep(1000)
+        try {
+          const success = await sysproxy.enableSystemProxy()
+          if (success) break
+        } catch (e) {
+          if (i === 4) console.error('设置系统代理超时，请稍后手动设置: clash sysproxy on')
+        }
+      }
+    } else {
+      console.log('提示: 可使用 `clash sysproxy on` 开启系统代理')
+    }
   })
 
 // 2.1 Stop 命令
 program
   .command('stop')
   .description('停止 Clash 服务')
-  .action(() => {
+  .action(async () => {
     try {
+      // 停止前先关闭系统代理
+      await sysproxy.disableSystemProxy()
+
       // 使用 pkill 匹配进程名包含 clash-meta 的进程
       execSync('pkill -f clash-meta')
       console.log('Clash 服务已停止')
@@ -59,7 +82,34 @@ program
     }
   })
 
-// 2.2 Status 命令
+// 2.2 Sysproxy 命令
+program
+  .command('sysproxy')
+  .description('设置系统代理')
+  .argument('[action]', 'on 或 off')
+  .action(async action => {
+    if (action === 'on') {
+      await sysproxy.enableSystemProxy()
+    } else if (action === 'off') {
+      await sysproxy.disableSystemProxy()
+    } else {
+      // 交互式选择
+      const answer = await select({
+        message: '请选择系统代理操作:',
+        choices: [
+          { name: '开启系统代理', value: 'on' },
+          { name: '关闭系统代理', value: 'off' },
+        ],
+      })
+      if (answer === 'on') {
+        await sysproxy.enableSystemProxy()
+      } else {
+        await sysproxy.disableSystemProxy()
+      }
+    }
+  })
+
+// 2.3 Status 命令
 program
   .command('status')
   .description('查看 Clash 运行状态')
