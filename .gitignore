@@ -10,3 +10,9 @@ dist
 
 # clash-meta
 # config.yaml
+
+# clash 相关
+cache.db
+geoip.metadb
+m.yaml
+.current_profile
