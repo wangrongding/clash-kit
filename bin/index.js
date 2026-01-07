@@ -78,7 +78,7 @@ program
         }
       }
     } else {
-      console.log('提示: 可使用 `clash sysproxy on` 开启系统代理')
+      console.log('提示: 可使用 `clash sysproxy on` 或 `clash sysproxy off` 开启或关闭系统代理')
     }
   })
 

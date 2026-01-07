@@ -1,9 +1,9 @@
 import { spawn, execSync } from 'child_process'
 import path from 'path'
 import fs from 'fs'
-import YAML from 'yaml'
+import chalk from 'chalk'
 import { fileURLToPath } from 'url'
-import { getApiBase } from './lib/api.js'
+import { getApiBase, getProxyPort } from './lib/api.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -54,13 +54,19 @@ export function main() {
     return console.error('找不到配置文件 config.yaml，请先创建或使用订阅下载配置。')
   }
   const clashProcess = startClash()
+  const { http, socks } = getProxyPort()
 
-  console.log('Clash.Meta 已在后台启动')
+  console.log(chalk.green('\n代理服务已在后台启动✅'))
   if (clashProcess.pid) {
-    console.log(`PID: ${clashProcess.pid}`)
+    console.log(`PID: ${chalk.yellow(clashProcess.pid)}`)
   }
-  console.log(`API: ${getApiBase()}`)
-  console.log('提示: 如需停止可使用 clash stop 命令')
+
+  console.log(``)
+  console.log(`HTTP Proxy:   ${chalk.cyan(`127.0.0.1:${http}`)}`)
+  console.log(`SOCKS5 Proxy: ${chalk.cyan(`127.0.0.1:${socks}`)}`)
+  console.log(`API:          ${chalk.cyan.underline(getApiBase())}`)
+  console.log(``)
+  console.log(chalk.gray('提示: 如需停止代理可使用 clash stop 命令'))
 }
 
 // 运行脚本
