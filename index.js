@@ -51,7 +51,7 @@ function startClash() {
 // ---------------- 3. 执行流程 ----------------
 export function main() {
   if (!fs.existsSync(CLASH_CONFIG_PATH)) {
-    return console.error('找不到配置文件 config.yaml，请先创建或使用订阅下载配置。')
+    return console.error(chalk.red('\n找不到配置文件 config.yaml,请先通过 clash sub 命令添加或选择订阅配置！\n'))
   }
   const clashProcess = startClash()
   const { http, socks } = getProxyPort()

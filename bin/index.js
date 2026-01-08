@@ -18,6 +18,21 @@ import chalk from 'chalk'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
+async function handleAddSubscription(url, name) {
+  const profiles = sub.listProfiles()
+  // 没有找到可选的订阅，或没找到 config.yaml
+  const isFirst = profiles.length === 0 || !fs.existsSync(path.join(__dirname, '../config.yaml'))
+
+  console.log(`正在下载订阅: ${url}...`)
+  await sub.downloadSubscription(url, name)
+  console.log(chalk.green(`订阅 ${name} 添加成功！`))
+
+  if (!isFirst) return
+  console.log(`检测到这是第一个订阅，正在自动切换到 ${name}...`)
+  await sub.useProfile(name)
+  console.log(chalk.green(`已自动切换到 ${name}`))
+}
+
 const program = new Command()
 
 program.name('clash').description('Clash CLI 管理工具').version('1.0.0')
@@ -90,8 +105,6 @@ program
           if (i === 4) console.error('设置系统代理超时，请稍后手动设置: clash sysproxy on')
         }
       }
-    } else {
-      console.log('提示: 可使用 `clash sysproxy on` 或 `clash sysproxy off` 开启或关闭系统代理')
     }
   })
 
@@ -312,18 +325,7 @@ program
         return
       }
       try {
-        const profiles = sub.listProfiles()
-        const isFirst = profiles.length === 0
-
-        console.log(`正在下载订阅: ${options.add}...`)
-        await sub.downloadSubscription(options.add, options.name)
-        console.log(`订阅 ${options.name} 添加成功！`)
-
-        if (isFirst) {
-          console.log(`检测到这是第一个订阅，正在自动切换到 ${options.name}...`)
-          await sub.useProfile(options.name)
-          console.log(`已自动切换到 ${options.name}`)
-        }
+        await handleAddSubscription(options.add, options.name)
       } catch (err) {
         console.error(err.message)
       }
@@ -366,9 +368,7 @@ program
         const name = await input({ message: '请输入订阅名称:' })
 
         try {
-          console.log('正在下载...')
-          await sub.downloadSubscription(url, name)
-          console.log('添加成功！')
+          await handleAddSubscription(url, name)
         } catch (err) {
           console.error(err.message)
         }
