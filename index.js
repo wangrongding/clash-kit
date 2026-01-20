@@ -2,6 +2,8 @@ import { spawn, execSync } from 'child_process'
 import path from 'path'
 import fs from 'fs'
 import chalk from 'chalk'
+import axios from 'axios'
+import ora from 'ora'
 import { fileURLToPath } from 'url'
 import { getApiBase, getProxyPort } from './lib/api.js'
 import * as sysproxy from './lib/sysproxy.js'
@@ -100,7 +102,20 @@ function setupExitHandlers() {
 }
 
 // ---------------- 5. 执行流程 ----------------
-export function main() {
+async function checkServiceHealth(apiBase, maxRetries = 20) {
+  for (let i = 0; i < maxRetries; i++) {
+    try {
+      await axios.get(apiBase, { timeout: 1000 })
+      return true
+    } catch (e) {
+      if (e.response) return true // 端口已通 (即使是 401 也可以)
+      await new Promise(r => setTimeout(r, 200)) // 200ms * 20 = 4s
+    }
+  }
+  return false
+}
+
+export async function main() {
   // 检查 clash-kit 二进制文件是否存在
   if (!fs.existsSync(CLASH_BIN_PATH)) {
     return console.error(chalk.red('\n找不到 Clash.Meta 内核文件,请先运行 clash init 命令初始化内核！\n'))
@@ -114,9 +129,29 @@ export function main() {
   setupExitHandlers()
 
   const clashProcess = startClash()
+
+  const spinner = ora('正在等待服务启动...').start()
+  const started = await checkServiceHealth(getApiBase())
+
+  if (!started) {
+    spinner.fail(chalk.red('启动失败'))
+    const logPath = path.join(__dirname, 'clash.log')
+    if (fs.existsSync(logPath)) {
+      console.log(chalk.yellow('\n------- clash.log (Last 20 lines) -------'))
+      const lines = fs.readFileSync(logPath, 'utf8').trim().split('\n')
+      console.log(lines.slice(-20).join('\n'))
+      console.log(chalk.yellow('-----------------------------------------\n'))
+    }
+    try {
+      process.kill(clashProcess.pid)
+    } catch (e) {}
+    process.exit(1)
+  }
+
+  spinner.succeed(chalk.green('启动成功'))
+
   const { http, socks } = getProxyPort()
 
-  console.log(chalk.green('\n代理服务已在后台启动✅'))
   if (clashProcess.pid) {
     console.log(`进程名称：${chalk.yellow('clash-kit')} PID: ${chalk.yellow(clashProcess.pid)}`)
   }
