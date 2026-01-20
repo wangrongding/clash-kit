@@ -38,22 +38,7 @@ clash init
 ck init
 ```
 
-### 3. 启动服务
-
-启动 Clash 核心服务（建议在一个单独的终端窗口运行）：
-
-```bash
-# 启动 Clash 代理服务
-ck start # 或者 ck on
-
-# 启动并自动开启系统代理
-ck start -s
-
-# 关闭服务并关闭系统代理
-ck stop # 或者 ck off
-```
-
-### 4. 添加订阅
+### 3. 添加订阅
 
 ```bash
 # 交互式管理订阅（添加、切换、删除等）【推荐使用这种方式来管理订阅】
@@ -64,6 +49,21 @@ ck sub -l
 
 # 手动添加订阅
 ck sub -a "https://example.com/subscribe?token=xxx" -n "abcName"
+```
+
+### 4. 启动服务
+
+启动 Clash 核心服务（建议在一个单独的终端窗口运行）：
+
+```bash
+# 启动 Clash 代理服务
+ck on # 或者 ck start
+
+# 启动并自动开启系统代理
+ck on -s
+
+# 关闭服务并关闭系统代理
+ck off # 或者 ck stop
 ```
 
 ### 4. 节点切换（自动测速）
@@ -83,10 +83,10 @@ ck node
 
 ```bash
 # 查看状态
-ck status
+ck info # 或者 ck status, ck view
 
 # 节点并发测速 (仅测速不切换，支持别名: test, ls, t)
-ck list
+ck list # 或者 ck test, ck ls
 
 # 设置系统代理
 ck sys on
@@ -102,9 +102,9 @@ ck tun off # 关闭
 | 命令 (别名)                   | 说明                       | 示例                                    |
 | ----------------------------- | -------------------------- | --------------------------------------- |
 | `ck init`                     | 初始化内核及权限           | `ck init`                               |
-| `ck start` (`on`)             | 启动 Clash 服务            | `ck on` `ck on -s` (启动并设置系统代理) |
-| `ck stop` (`off`)             | 停止服务并关闭代理         | `ck off`                                |
-| `ck status` (`info`, `view`)  | 查看运行状态及当前节点延迟 | `ck status`                             |
+| `ck on` (`start`)             | 启动 Clash 服务            | `ck on` `ck on -s` (启动并设置系统代理) |
+| `ck off` (`stop`)             | 停止服务并关闭代理         | `ck off`                                |
+| `ck info` (`status`, `view`)  | 查看运行状态及当前节点延迟 | `ck info` / `ck status` / `ck view`     |
 | `ck sysproxy` (`sys`)         | 设置系统代理               | `ck sys on` / `ck sys off`              |
 | `ck tun`                      | 设置 TUN 模式 (需要 sudo)  | `ck tun on`                             |
 | `ck sub`                      | 管理订阅（交互式）【推荐】 | `ck sub`                                |

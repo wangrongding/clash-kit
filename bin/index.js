@@ -28,14 +28,14 @@ program
 
 // 启动 clash 服务
 program
-  .command('start')
-  .alias('on')
+  .command('on')
+  .alias('start')
   .description('启动 Clash 服务')
   .option('-s, --sysproxy', '启动后自动开启系统代理')
   .action(start)
 
 // 停止 clash 服务
-program.command('stop').alias('off').description('停止 Clash 服务').action(stop)
+program.command('off').alias('stop').description('停止 Clash 服务').action(stop)
 
 // 设置系统代理
 program
@@ -49,7 +49,7 @@ program
 program.command('tun').description('设置 TUN 模式 (可能需要提权)').argument('[action]', 'on 或 off').action(setTun)
 
 // 查看 clash 状态
-program.command('status').alias('st').alias('view').alias('info').description('查看 Clash 运行状态').action(status)
+program.command('info').alias('status').alias('view').description('查看 Clash 运行状态').action(status)
 
 // 管理订阅
 program
