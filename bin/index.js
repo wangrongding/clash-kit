@@ -23,10 +23,15 @@ program
   .action(init)
 
 // 启动 clash 服务
-program.command('start').description('启动 Clash 服务').option('-s, --sysproxy', '启动后自动开启系统代理').action(start)
+program
+  .command('start')
+  .alias('on')
+  .description('启动 Clash 服务')
+  .option('-s, --sysproxy', '启动后自动开启系统代理')
+  .action(start)
 
 // 停止 clash 服务
-program.command('stop').description('停止 Clash 服务').action(stop)
+program.command('stop').alias('off').description('停止 Clash 服务').action(stop)
 
 // 设置系统代理
 program
@@ -53,9 +58,15 @@ program
   .action(manageSub)
 
 // 切换节点
-program.command('proxy').alias('p').description('切换节点').action(proxy)
+program.command('use').aliases(['node', 'proxy', 'switch']).description('切换节点 (别名: node, proxy, switch)').action(proxy)
 
-// 节点测速
-program.command('test').alias('t').description('节点测速').action(test)
+// 列出所有节点，并测速
+program
+  .command('list')
+  .alias('ls')
+  .alias('test')
+  .alias('t')
+  .description('节点测速 (别名: list, ls, test, t) ')
+  .action(test)
 
 program.parse(process.argv)
