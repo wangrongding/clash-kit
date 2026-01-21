@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 import { Command } from 'commander'
+import { install } from '../lib/commands/install.js'
 import { init } from '../lib/commands/init.js'
 import { start } from '../lib/commands/start.js'
 import { stop } from '../lib/commands/stop.js'
@@ -14,6 +15,12 @@ import { test } from '../lib/commands/test.js'
 const program = new Command()
 
 program.name('clash').alias('ck').description('Clash CLI 管理工具 (Alias: ck)').version('1.0.0')
+
+// 安装服务
+program
+  .command('install')
+  .description('安装 Clash 服务并设置开机自启 (需要 root 权限)')
+  .action(install)
 
 // 初始化 clash 内核
 program
