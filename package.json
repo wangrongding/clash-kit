@@ -1,6 +1,6 @@
 {
   "name": "clash-kit",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "type": "module",
   "description": "A command-line interface for managing Clash configurations, subscriptions, and proxies.",
   "bin": {

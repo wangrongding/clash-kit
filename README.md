@@ -61,6 +61,8 @@ ck on # 或者 ck start
 
 # 启动并自动开启系统代理
 ck on -s
+# 启动并自动开启 TUN 模式(全局代理, 需要 sudo 权限)
+ck on -t
 
 # 关闭服务并关闭系统代理
 ck off # 或者 ck stop
@@ -99,20 +101,20 @@ ck tun off # 关闭
 
 ## 命令详解
 
-| 命令 (别名)                   | 说明                       | 示例                                    |
-| ----------------------------- | -------------------------- | --------------------------------------- |
-| `ck init`                     | 初始化内核及权限           | `ck init`                               |
-| `ck on` (`start`)             | 启动 Clash 服务            | `ck on` `ck on -s` (启动并设置系统代理) |
-| `ck off` (`stop`)             | 停止服务并关闭代理         | `ck off`                                |
-| `ck info` (`status`, `view`)  | 查看运行状态及当前节点延迟 | `ck info` / `ck status` / `ck view`     |
-| `ck sysproxy` (`sys`)         | 设置系统代理               | `ck sys on` / `ck sys off`              |
-| `ck tun`                      | 设置 TUN 模式 (需要 sudo)  | `ck tun on`                             |
-| `ck sub`                      | 管理订阅（交互式）【推荐】 | `ck sub`                                |
-| `ck sub -l`                   | 列出所有订阅               | `ck sub -l`                             |
-| `ck sub -a <url>`             | 添加订阅                   | `ck sub -a "http..." -n "pro"`          |
-| `ck sub -u <name>`            | 切换订阅                   | `ck sub -u "pro"`                       |
-| `ck use` (`node`, `switch`)   | 切换节点 (自动测速)        | `ck use` / `ck node`                    |
-| `ck list` (`ls`, `test`, `t`) | 节点测速列表 (不切换)      | `ck list` / `ck test`                   |
+| 命令 (别名)                   | 说明                       | 示例                                                                     |
+| ----------------------------- | -------------------------- | ------------------------------------------------------------------------ |
+| `ck init`                     | 初始化内核及权限           | `ck init`                                                                |
+| `ck on` (`start`)             | 启动 Clash 服务            | `ck on` `ck on -s` (启动并设置系统代理) `ck on -t` (启动并开启 TUN 模式) |
+| `ck off` (`stop`)             | 停止服务并关闭代理         | `ck off`                                                                 |
+| `ck info` (`status`, `view`)  | 查看运行状态及当前节点延迟 | `ck info` / `ck status` / `ck view`                                      |
+| `ck sysproxy` (`sys`)         | 设置系统代理               | `ck sys on` / `ck sys off`                                               |
+| `ck tun`                      | 设置 TUN 模式 (需要 sudo)  | `ck tun on`                                                              |
+| `ck sub`                      | 管理订阅（交互式）【推荐】 | `ck sub`                                                                 |
+| `ck sub -l`                   | 列出所有订阅               | `ck sub -l`                                                              |
+| `ck sub -a <url>`             | 添加订阅                   | `ck sub -a "http..." -n "pro"`                                           |
+| `ck sub -u <name>`            | 切换订阅                   | `ck sub -u "pro"`                                                        |
+| `ck use` (`node`, `switch`)   | 切换节点 (自动测速)        | `ck use` / `ck node`                                                     |
+| `ck list` (`ls`, `test`, `t`) | 节点测速列表 (不切换)      | `ck list` / `ck test`                                                    |
 
 ## License
 

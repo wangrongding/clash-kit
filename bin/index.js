@@ -30,8 +30,9 @@ program
 program
   .command('on')
   .alias('start')
-  .description('启动 Clash 服务')
+  .description('启动 Clash 服务, -s 自动开启系统代理, -t 自动开启 TUN 模式(全局代理)')
   .option('-s, --sysproxy', '启动后自动开启系统代理')
+  .option('-t, --tun', '启动后自动开启 TUN 模式')
   .action(start)
 
 // 停止 clash 服务
