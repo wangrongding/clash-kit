@@ -9,6 +9,7 @@ dist
 *.log
 
 clash-kit
+clash-kit.exe
 config.yaml
 profiles
 ruleset
