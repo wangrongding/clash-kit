@@ -21,7 +21,8 @@
   "main": "index.js",
   "scripts": {
     "start": "node bin/index.js start",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepublishOnly": "node scripts/release.js"
   },
   "keywords": [
     "clash",
