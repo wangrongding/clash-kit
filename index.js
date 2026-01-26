@@ -11,14 +11,19 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
 // ---------------- 1. 配置项 ----------------
-const CLASH_BIN_PATH = path.join(__dirname, 'clash-kit') // 解压后的二进制文件路径
+const CLASH_BIN_NAME = process.platform === 'win32' ? 'clash-kit.exe' : 'clash-kit'
+const CLASH_BIN_PATH = path.join(__dirname, CLASH_BIN_NAME) // 解压后的二进制文件路径
 const CLASH_CONFIG_PATH = path.join(__dirname, 'config.yaml') // 配置文件路径
 
 // ---------------- 2. 启动 Clash.Meta 进程 ----------------
 function startClash() {
   // 尝试停止已存在的进程
   try {
-    execSync('pkill -f clash-kit')
+    if (process.platform === 'win32') {
+      execSync(`taskkill /F /IM ${CLASH_BIN_NAME}`)
+    } else {
+      execSync(`pkill -f ${CLASH_BIN_NAME}`)
+    }
   } catch (e) {
     // 忽略错误，说明没有运行中的进程
   }
@@ -65,7 +70,11 @@ async function cleanup() {
 
     // 停止 Clash 进程
     try {
-      execSync('pkill -f clash-kit')
+      if (process.platform === 'win32') {
+        execSync(`taskkill /F /IM ${CLASH_BIN_NAME}`)
+      } else {
+        execSync(`pkill -f ${CLASH_BIN_NAME}`)
+      }
       console.log('Clash 服务已停止')
     } catch (e) {
       // 进程可能已经停止

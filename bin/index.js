@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 import { Command } from 'commander'
+import { install } from '../lib/commands/install.js'
 import { init } from '../lib/commands/init.js'
 import { start } from '../lib/commands/start.js'
 import { stop } from '../lib/commands/stop.js'
@@ -10,10 +11,17 @@ import { status } from '../lib/commands/status.js'
 import { manageSub } from '../lib/commands/sub.js'
 import { proxy } from '../lib/commands/proxy.js'
 import { test } from '../lib/commands/test.js'
+import { listRules, addRule, deleteRule } from '../lib/commands/rule.js'
 
 const program = new Command()
 
 program.name('clash').alias('ck').description('Clash CLI 管理工具 (Alias: ck)').version('1.0.0')
+
+// 安装服务
+program
+  .command('install')
+  .description('安装 Clash 服务并设置开机自启 (需要 root 权限)')
+  .action(install)
 
 // 初始化 clash 内核
 program
@@ -57,5 +65,24 @@ program.command('proxy').alias('p').description('切换节点').action(proxy)
 
 // 节点测速
 program.command('test').alias('t').description('节点测速').action(test)
+
+// 管理规则
+const ruleCommand = program.command('rule').description('管理代理规则')
+
+ruleCommand.command('ls [keyword]').description('查看规则，支持模糊查询').action(keyword => listRules(keyword))
+
+ruleCommand
+  .command('add')
+  .description('添加规则')
+  .requiredOption('-t, --type <type>', '规则类型: domain|suffix|keyword|ip')
+  .requiredOption('-p, --pattern <pattern>', '匹配模式')
+  .requiredOption('-T, --target <target>', '目标: PROXY|DIRECT|REJECT 等')
+  .action(options => addRule({ type: options.type, pattern: options.pattern, target: options.target }))
+
+ruleCommand
+  .command('del')
+  .description('删除规则')
+  .requiredOption('-p, --pattern <pattern>', '要删除的匹配模式')
+  .action(options => deleteRule(options.pattern))
 
 program.parse(process.argv)
