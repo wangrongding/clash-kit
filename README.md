@@ -1,10 +1,11 @@
 # Clash Kit
+
 <a target="_blank" href="https://github.com/wangrongding/clash-kit"><img src="https://img.shields.io/github/stars/wangrongding/clash-kit" alt="GitHub stars" /></a>
-<a target="_blank" href="https://www.npmjs.com/package/clash-kit"><img src="https://img.shields.io/npm/dt/clash-kit?style=flat&label=downloads&color=cb3837&labelColor=cb0000&logo=npm" alt="npm downloads"/></a>  
+<a target="_blank" href="https://www.npmjs.com/package/clash-kit"><img src="https://img.shields.io/npm/dt/clash-kit?style=flat&label=downloads&color=cb3837&labelColor=cb0000&logo=npm" alt="npm downloads"/></a>
 
-一个基于 Node.js 的 Clash 命令行管理工具，旨在简化 Clash 的配置管理、订阅切换和节点测速等操作。  
+一个基于 Node.js 的 Clash 命令行管理工具，旨在简化 Clash 的配置管理、订阅切换和节点测速等操作。
 
-目前已兼容 Windows，MacOs，Linux。  
+目前已兼容 Windows，MacOs，Linux。
 
 ## 截图
 
@@ -70,6 +71,9 @@ ck on -t
 
 # 关闭服务并关闭系统代理
 ck off # 或者 ck stop
+
+# 重新启动服务
+ck rs # 或者 ck restart
 ```
 
 ### 4. 节点切换（自动测速）
@@ -110,6 +114,7 @@ ck tun off # 关闭
 | `ck init`                     | 初始化内核及权限           | `ck init`                                                                |
 | `ck on` (`start`)             | 启动 Clash 服务            | `ck on` `ck on -s` (启动并设置系统代理) `ck on -t` (启动并开启 TUN 模式) |
 | `ck off` (`stop`)             | 停止服务并关闭代理         | `ck off`                                                                 |
+| `ck rs` (`restart`)           | 重启 Clash 服务            | `ck rs` `ck rs -s` (重启并设置系统代理) `ck rs -t` (重启并开启 TUN 模式) |
 | `ck info` (`status`, `view`)  | 查看运行状态及当前节点延迟 | `ck info` / `ck status` / `ck view`                                      |
 | `ck sysproxy` (`sys`)         | 设置系统代理               | `ck sys on` / `ck sys off`                                               |
 | `ck tun`                      | 设置 TUN 模式 (需要 sudo)  | `ck tun on`                                                              |

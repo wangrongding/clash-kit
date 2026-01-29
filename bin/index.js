@@ -4,6 +4,7 @@ import { Command } from 'commander'
 import { createRequire } from 'module'
 import { init } from '../lib/commands/init.js'
 import { start } from '../lib/commands/start.js'
+import { restart } from '../lib/commands/restart.js'
 import { stop } from '../lib/commands/stop.js'
 import { setSysProxy } from '../lib/commands/sysproxy.js'
 import { setTun } from '../lib/commands/tun.js'
@@ -37,6 +38,16 @@ program
 
 // 停止 clash 服务
 program.command('off').alias('stop').description('停止 Clash 服务').action(stop)
+
+// 重启 clash 服务
+program
+  .command('restart')
+  .alias('re')
+  .alias('rs')
+  .description('重启 Clash 服务')
+  .option('-s, --sysproxy', '启动后自动开启系统代理')
+  .option('-t, --tun', '启动后自动开启 TUN 模式')
+  .action(restart)
 
 // 设置系统代理
 program
