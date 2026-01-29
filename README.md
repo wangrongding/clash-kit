@@ -1,8 +1,10 @@
 # Clash Kit
+<a target="_blank" href="https://github.com/wangrongding/clash-kit"><img src="https://img.shields.io/github/stars/wangrongding/clash-kit" alt="GitHub stars" /></a>
+<a target="_blank" href="https://www.npmjs.com/package/clash-kit"><img src="https://img.shields.io/npm/dt/clash-kit?style=flat&label=downloads&color=cb3837&labelColor=cb0000&logo=npm" alt="npm downloads"/></a>  
 
-一个基于 Node.js 的 Clash 命令行管理工具，旨在简化 Clash 的配置管理、订阅切换和节点测速等操作。
+一个基于 Node.js 的 Clash 命令行管理工具，旨在简化 Clash 的配置管理、订阅切换和节点测速等操作。  
 
-目前已兼容 Windows，MacOs，Linux。
+目前已兼容 Windows，MacOs，Linux。  
 
 ## 截图
 
