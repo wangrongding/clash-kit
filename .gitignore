@@ -20,3 +20,9 @@ geoip.metadb
 m.yaml
 .current_profile
 dns-helper
+
+
+# ai coding
+.agents
+.github
+.gemini
