@@ -21,6 +21,8 @@ m.yaml
 .current_profile
 dns-helper
 
+# brew packages
+clash-kit-*
 
 # ai coding
 .agents
