@@ -27,10 +27,23 @@
 
 ### 1. 安装
 
+通过 npm 或其它任意包管理器全局安装：
+
 ```bash
 npm install -g clash-kit
 # 或者
 pnpm add -g clash-kit
+# 或者
+yarn global add clash-kit
+```
+
+也支持通过 Homebrew 安装：
+
+```bash
+# 1. 先通过 brew tap 添加仓库
+brew tap wangrongding/clash-kit https://github.com/wangrongding/clash-kit
+# 2. 安装 clash-kit
+brew install clash-kit
 ```
 
 ### 2. 初始化
