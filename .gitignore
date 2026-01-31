@@ -19,3 +19,4 @@ cache.db
 geoip.metadb
 m.yaml
 .current_profile
+dns-helper
