@@ -4,9 +4,11 @@ import fs from 'fs'
 import chalk from 'chalk'
 import axios from 'axios'
 import ora from 'ora'
+import boxen from 'boxen'
 import YAML from 'yaml'
 import { fileURLToPath } from 'url'
 import { getApiBase, getProxyPort } from './lib/api.js'
+import { status } from './lib/commands/status.js'
 import * as sysproxy from './lib/sysproxy.js'
 import * as tun from './lib/tun.js'
 import { isPortOpen, extractPort, getPortOccupier } from './lib/port.js'
@@ -192,24 +194,8 @@ export async function main() {
 
   spinner.succeed(chalk.green('启动成功'))
 
-  const { http, socks } = getProxyPort()
-
-  if (clashProcess.pid) {
-    console.log(`进程名称：${chalk.yellow('clash-kit')} PID: ${chalk.yellow(clashProcess.pid)}`)
-  }
-
-  console.log(``)
-  console.log(`HTTP Proxy:   ${chalk.cyan(`127.0.0.1:${http}`)}`)
-  console.log(`SOCKS5 Proxy: ${chalk.cyan(`127.0.0.1:${socks}`)}`)
-  console.log(`API:          ${chalk.cyan.underline(getApiBase())}`)
-  console.log(``)
-
-  console.log(chalk.gray('运行日志文件: ' + path.join(__dirname, 'clash.log')))
-  console.log(chalk.blue('提示：如需查看运行状态可使用 clash status 命令'))
-  console.log(chalk.blue('如需停止代理可使用 clash stop 命令'))
-  console.log(chalk.gray('----------------------------------------'))
-  console.log(chalk.gray('如需切换系统代理模式可使用 clash sysproxy on/off 命令'))
-  console.log(chalk.gray('如需切换 TUN 模式可使用 clash tun on/off 命令'))
+  // 调用 status 命令来打印完整的状态信息
+  await status()
 }
 
 // 运行脚本
