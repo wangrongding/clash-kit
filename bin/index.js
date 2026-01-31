@@ -12,10 +12,26 @@ import { status } from '../lib/commands/status.js'
 import { manageSub } from '../lib/commands/sub.js'
 import { proxy } from '../lib/commands/proxy.js'
 import { test } from '../lib/commands/test.js'
+import updateNotifier from 'update-notifier'
 
 const require = createRequire(import.meta.url)
 const pkg = require('../package.json')
 
+updateNotifier({
+  pkg: pkg,
+  updateCheckInterval: 1000 * 60 * 60 * 24, // 检查更新间隔，1 day
+  shouldNotifyInNpmScript: true,
+}).notify({
+  isGlobal: true,
+  boxenOptions: {
+    title: '有新版本的 Clash Kit 可用',
+    padding: 1,
+    margin: 1,
+    align: 'center',
+    borderColor: 'yellowBright',
+    borderStyle: 'round',
+  },
+})
 const program = new Command()
 
 program.name('clash').alias('ck').description('Clash CLI 管理工具 (Alias: ck)').version(pkg.version, '-v, --version')
