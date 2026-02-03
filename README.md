@@ -7,9 +7,7 @@
 
 目前已兼容 Windows，MacOs，Linux。
 
-## 截图
-
-<img width="1920" alt="image" src="https://github.com/user-attachments/assets/1183f778-62b0-4ac7-ab55-b821b66161f0" />
+<img width="604" height="315" alt="image" src="https://github.com/user-attachments/assets/7c97ef51-5a95-4612-aa43-ce66423d7560" />  
 
 ## 特性
 
@@ -137,6 +135,10 @@ ck tun off # 关闭
 | `ck sub -u <name>`            | 切换订阅                   | `ck sub -u "pro"`                                                        |
 | `ck use` (`node`, `switch`)   | 切换节点 (自动测速)        | `ck use` / `ck node`                                                     |
 | `ck list` (`ls`, `test`, `t`) | 节点测速列表 (不切换)      | `ck list` / `ck test`                                                    |
+
+## 截图
+
+<img width="1920" alt="image" src="https://github.com/user-attachments/assets/1183f778-62b0-4ac7-ab55-b821b66161f0" />
 
 ## License
 
