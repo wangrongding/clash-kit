@@ -7,7 +7,7 @@
 
 目前已兼容 Windows，MacOs，Linux。
 
-<img width="604" height="315" alt="image" src="https://github.com/user-attachments/assets/7c97ef51-5a95-4612-aa43-ce66423d7560" />  
+<img width="604" height="315" alt="image" src="https://github.com/user-attachments/assets/7c97ef51-5a95-4612-aa43-ce66423d7560" />
 
 ## 特性
 
@@ -21,11 +21,9 @@
 - 💻 **系统代理**：一键开启/关闭 macOS 系统 HTTP 代理。
 - 🛡 **TUN 模式**：高级网络模式，接管系统所有流量（真 · 全局代理）。
 
-## 使用
+## 安装
 
-### 1. 安装
-
-通过 npm 或其它任意包管理器全局安装：
+- 支持通过 npm 或其它任意包管理器全局安装：
 
 ```bash
 npm install -g clash-kit
@@ -35,7 +33,7 @@ pnpm add -g clash-kit
 yarn global add clash-kit
 ```
 
-也支持通过 Homebrew 安装：
+- 也支持通过 Homebrew 安装：
 
 ```bash
 # 1. 先通过 brew tap 添加仓库
@@ -44,14 +42,15 @@ brew tap wangrongding/clash-kit https://github.com/wangrongding/clash-kit
 brew install clash-kit
 ```
 
-### 2. 初始化
+## 使用
+
+### 1. 初始化
 
 首次安装后，需要先初始化 Clash 内核与权限：
 
 ```bash
-clash init
 # 推荐用简化命令（文档后续均以简化命令为例）
-ck init
+ck init # 或者 clash init
 ```
 
 ### 3. 添加订阅
@@ -79,35 +78,35 @@ ck on # 或者 ck start
 ck on -s
 # 启动并自动开启 TUN 模式(全局代理, 需要 sudo 权限)
 ck on -t
+```
 
-# 关闭服务并关闭系统代理
+### 5. 关闭服务 或 重新启动服务
+
+```bash
+# 关闭服务
 ck off # 或者 ck stop
 
 # 重新启动服务
 ck rs # 或者 ck restart
 ```
 
-### 4. 节点切换（自动测速）
+### 6. 节点切换（自动测速）
 
 进入交互式界面，自动对当前节点组进行并发测速，并展示带有即时延迟数据的节点列表供选择。
 
 ```bash
 # 切换节点 (支持别名: node, proxy, switch)
 ck use
-# 或者
-ck switch
-# 或者
-ck node
 ```
 
-### 5. 更多功能
+### 7. 更多功能
 
 ```bash
 # 查看状态
 ck info # 或者 ck status, ck view
 
 # 节点并发测速 (仅测速不切换，支持别名: test, ls, t)
-ck list # 或者 ck test, ck ls
+ck ls # 或者 ck list，ck test，ck t
 
 # 设置系统代理
 ck sys on
