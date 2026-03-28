@@ -11,9 +11,9 @@
 
 ## 特性
 
-- 🔄 **订阅管理**：支持添加、切换多个订阅源。
+- 🔄 **订阅管理**：支持添加、切换、修改、删除多个订阅源。
 - 🌐 **节点切换**：交互式选择并切换当前使用的代理节点。
-- 🔥 **热重载**：切换订阅后立即生效，无需重启服务。
+- 🔥 **热重载**：切换订阅/开关 TUN 后立即生效，无需重启服务。
 - ⚡ **节点测速**：支持多线程并发测速，彩色高亮显示延迟结果。
 - 📊 **状态监控**：实时查看服务运行状态、当前节点及延迟。
 - 🛠 **自动初始化**：自动处理二进制文件权限问题。
@@ -53,18 +53,30 @@ brew install clash-kit
 ck init # 或者 clash init
 ```
 
-### 3. 添加订阅
+### 3. 管理订阅
 
 ```bash
-# 交互式管理订阅（添加、切换、删除等）【推荐使用这种方式来管理订阅】
+# 交互式管理订阅（添加、切换、修改、删除）【推荐】
 ck sub
 
 # 列出所有订阅
 ck sub -l
 
-# 手动添加订阅
-ck sub -a "https://example.com/subscribe?token=xxx" -n "abcName"
+# 手动添加订阅（-n 名称，-a 链接）
+ck sub -n "test123" -a "https://example.com/subscribe?token=xxx"
+
+# 手动切换订阅
+ck sub -u "test123"
 ```
+
+交互式模式 (`ck sub`) 提供以下操作：
+
+| 操作     | 说明                                       |
+| -------- | ------------------------------------------ |
+| 切换订阅 | 从现有订阅中选择并立即生效（热重载）       |
+| 添加订阅 | 依次输入名称和链接，完成下载               |
+| 修改订阅 | 重命名 和/或 更换订阅链接（均可留空跳过）  |
+| 删除订阅 | 选择后需二次确认，若删除当前订阅会自动解绑 |
 
 ### 4. 启动服务
 
@@ -127,10 +139,10 @@ ck tun off # 关闭
 | `ck rs` (`restart`)           | 重启 Clash 服务            | `ck rs` `ck rs -s` (重启并设置系统代理) `ck rs -t` (重启并开启 TUN 模式) |
 | `ck info` (`status`, `view`)  | 查看运行状态及当前节点延迟 | `ck info` / `ck status` / `ck view`                                      |
 | `ck sysproxy` (`sys`)         | 设置系统代理               | `ck sys on` / `ck sys off`                                               |
-| `ck tun`                      | 设置 TUN 模式 (需要 sudo)  | `ck tun on`                                                              |
+| `ck tun`                      | 设置 TUN 模式 (需要 sudo)  | `ck tun on` / `ck tun off`                                               |
 | `ck sub`                      | 管理订阅（交互式）【推荐】 | `ck sub`                                                                 |
 | `ck sub -l`                   | 列出所有订阅               | `ck sub -l`                                                              |
-| `ck sub -a <url>`             | 添加订阅                   | `ck sub -a "http..." -n "pro"`                                           |
+| `ck sub -n <name> -a <url>`   | 添加订阅                   | `ck sub -n "pro" -a "http..."`                                           |
 | `ck sub -u <name>`            | 切换订阅                   | `ck sub -u "pro"`                                                        |
 | `ck use` (`node`, `switch`)   | 切换节点 (自动测速)        | `ck use` / `ck node`                                                     |
 | `ck list` (`ls`, `test`, `t`) | 节点测速列表 (不切换)      | `ck list` / `ck test`                                                    |
