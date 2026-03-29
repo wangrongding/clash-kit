@@ -87,6 +87,7 @@ program
   .option('-n, --name <name>', '订阅名称')
   .option('-l, --list', '列出所有订阅')
   .option('-u, --use <name>', '切换使用的订阅')
+  .option('-d, --delete <name>', '删除订阅')
   .action(manageSub)
 
 // 切换节点
