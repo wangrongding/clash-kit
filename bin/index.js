@@ -7,6 +7,7 @@ import { start } from '../lib/commands/start.js'
 import { restart } from '../lib/commands/restart.js'
 import { stop } from '../lib/commands/stop.js'
 import { setSysProxy } from '../lib/commands/sysproxy.js'
+import { shellInit } from '../lib/commands/shellInit.js'
 import { setTun } from '../lib/commands/tun.js'
 import { status } from '../lib/commands/status.js'
 import { manageSub } from '../lib/commands/sub.js'
@@ -78,7 +79,14 @@ program
   .alias('sys')
   .description('设置系统代理')
   .argument('[action]', 'on 或 off')
+  .option('--export', '输出 export/unset 语句，供 eval "$(ck sys on --export)" 使用')
   .action(setSysProxy)
+
+// 安装 ck 包装函数，使 ck sys on/off 在当前终端立即生效 (仅 Linux)
+program
+  .command('shell-init')
+  .description('安装 ck 包装函数到 shell 配置，使 ck sys on/off 在当前终端生效 (仅 Linux)')
+  .action(shellInit)
 
 // 设置 TUN 模式（真正的全局代理，所有流量都会被代理）
 program.command('tun').description('设置 TUN 模式 (可能需要提权)').argument('[action]', 'on 或 off').action(setTun)
